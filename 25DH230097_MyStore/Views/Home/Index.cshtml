@@ -1,33 +1,49 @@
-﻿@{
+﻿@model _25DH230097_MyStore.Models.ViewModel.HomeProductVM
+
+@{
     ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+<!-- NHÚNG FILE CSS TỪ BÊN NGOÀI (Giống bài giảng) -->
+<link rel="stylesheet" type="text/css" href="~/Content/myStyle/CustomerHome.css" />
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+<!-- 1. Đẩy nội dung vào vùng MENU của Layout -->
+@section Menu {
+    <h3>Danh mục sách</h3>
+    <select class="form-control" style="width: 100%; padding: 5px;">
+        <option>OPTION 1</option>
+        <option>OPTION 2</option>
+        <option>OPTION 3</option>
+    </select>
+}
+
+<!-- 2. Đẩy nội dung vào vùng BANNER của Layout -->
+@section Banner {
+    <div class="banner">
+        <div class="banner-container">
+            <h2>Chào mừng đến với Trang web Sách online</h2>
+            <p>Thư viện sách trực tuyến với hàng ngàn đầu sách chất lượng.</p>
+            <a href="#" class="btnBanner">Bắt đầu mua sắm</a>
+        </div>
     </div>
-</main>
+}
+
+<!-- 3. NỘI DUNG CHÍNH (Nằm trong vùng .content của Layout) -->
+<section class="search-section">
+    <h2>Tìm kiếm sản phẩm</h2>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+    {
+        <div class="search-container">
+            @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @id = "search-input", @class = "search-input", placeholder = "Nhập từ khóa ... " } })
+            <button type="submit" class="search-button">Tìm kiếm</button>
+        </div>
+    }
+</section>
+
+<!-- 4. GỌI CÁC PARTIAL VIEW (Giống bài giảng) -->
+<!-- Phần sản phẩm nổi bật -->
+@Html.Partial("PVFeatureProduct", Model)
+
+<!-- Phần sản phẩm mới -->
+@Html.Partial("PVNewProduct", Model)

@@ -35,7 +35,15 @@
         {
             <tr>
                 <td>
-                    <img src="@Html.DisplayFor(modelItem => item.ProductImage)" />
+                    <!-- Nếu có ảnh thì hiện ảnh, không có thì hiện ảnh mặc định -->
+                    @if (!string.IsNullOrEmpty(item.ProductImage))
+                    {
+                        <img src="@Url.Content(item.ProductImage)" />
+                    }
+                    else
+                    {
+                        <p>Chưa có ảnh</p>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ProductName)

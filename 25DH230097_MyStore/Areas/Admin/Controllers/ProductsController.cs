@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -102,10 +103,22 @@ namespace _25DH230097_MyStore.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductID,CategoryID,ProductName,ProductPrice,ProductImage,ProductDescription")] Product product)
+        public ActionResult Create([Bind(Include = "ProductID,CategoryID,ProductName,ProductPrice,ProductImage,ProductDescription, UploadImage")] Product product)
         {
+            if (product.UploadImage == null)
+            {
+                return Content("LỖI: Không nhận được file từ View!");
+            }
+
             if (ModelState.IsValid)
             {
+                if (product.UploadImage != null)
+                {
+                    string filename = Path.GetFileName(product.UploadImage.FileName);
+                    string savePath = "~/Content/images/";
+                    product.ProductImage = savePath + filename;
+                    product.UploadImage.SaveAs(Path.Combine(Server.MapPath(savePath), filename));
+                }
                 db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -136,10 +149,18 @@ namespace _25DH230097_MyStore.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductID,CategoryID,ProductName,ProductPrice,ProductImage,ProductDescription")] Product product)
+        public ActionResult Edit([Bind(Include = "ProductID,CategoryID,ProductName,ProductPrice,ProductImage,ProductDescription,UploadImage")] Product product)
         {
+
             if (ModelState.IsValid)
             {
+                if (product.UploadImage != null)
+                {
+                    string filename = Path.GetFileName(product.UploadImage.FileName);
+                    string savePath = "~/Content/images/";
+                    product.ProductImage = savePath + filename;
+                    product.UploadImage.SaveAs(Path.Combine(Server.MapPath(savePath), filename));
+                }
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

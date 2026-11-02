@@ -1,0 +1,31 @@
+﻿@model _25DH230097_MyStore.Models.ViewModel.ProductDetailsVM
+
+<link rel="stylesheet" type="text/css" href="~/Content/Home/myStyle.css" />
+<!-- Hiển thị danh sách sản phẩm -->
+@if (Model.RelatedProducts != null && Model.RelatedProducts.Any())
+{
+    <section class="container-fluid featureProd">
+        <h4 style="font-weight:bold;">Sản phẩm tương tự</h4>
+
+        <!-- SỬA: Đổi ul thành div -->
+        <div class="feature-container">
+            @foreach (var product in Model.RelatedProducts)
+            {
+                <!-- SỬA: Đổi li thành div -->
+                <div class="fproduct-item">
+                    <div>
+                        <a href="@Url.Action("ProductDetails", "Home", new { id = product.ProductID })">
+                            <!-- SỬA: Dùng thẻ img và Url.Content -->
+                            <img src="@Url.Content(product.ProductImage)" alt="@product.ProductName" />
+                        </a>
+                    </div>
+                    <div>
+                        <h5>@Html.DisplayFor(modelItem => product.ProductName)</h5>
+                        <!-- SỬA: Format giá tiền -->
+                        <p class="prodSale">@String.Format("{0:N0} VNĐ", product.ProductPrice)</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}

@@ -1,0 +1,110 @@
+﻿@model _25DH230097_MyStore.Models.ViewModel.ProfileVM
+
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-warning text-center">
+        @ViewBag.ErrorMessage
+    </div>
+}
+<div class="container mt-4">
+    <h3>Thông tin tài khoản</h3>
+    <hr />
+
+    @if (ViewBag.SuccessMessage != null)
+    {
+        <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+    }
+
+        <div class="row">
+            <!-- CỘT TRÁI: Hiển thị thông tin cá nhân (Section 1) -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" style="width:100px" alt="Avatar" />
+                        <h5>@Model.CustomerName</h5>
+                        <p class="text-muted">@Model.Username</p>
+
+                        <hr />
+                        <p><strong>SĐT:</strong> @Model.CustomerPhone</p>
+                        <p><strong>Email:</strong> @Model.CustomerEmail</p>
+                        <p><strong>Địa chỉ:</strong> @Model.CustomerAddress</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CỘT PHẢI: Form Thay đổi thông tin (Section 2) -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Thay đổi thông tin</h5>
+
+                        @using (Html.BeginForm("UserProfile", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            //Tên người dùng
+                           
+                               @Html.HiddenFor(m=> m.Username) @*vì Username là required nên phải có và ko cho người dùng chỉnh sửa*@
+                                
+
+                            <!-- Họ tên -->
+                            <div class="form-group row mb-3">
+                                <label class="col-md-3 col-form-label">Họ và Tên</label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(m => m.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(m => m.CustomerName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <!-- Số điện thoại -->
+                            <div class="form-group row mb-3">
+                                <label class="col-md-3 col-form-label">Số điện thoại</label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(m => m.CustomerPhone, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(m => m.CustomerPhone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="form-group row mb-3">
+                                <label class="col-md-3 col-form-label">Địa chỉ Email</label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(m => m.CustomerEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(m => m.CustomerEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <!-- Địa chỉ -->
+                            <div class="form-group row mb-3">
+                                <label class="col-md-3 col-form-label">Địa chỉ</label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(m => m.CustomerAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(m => m.CustomerAddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <!-- Nút Lưu -->
+                            <div class="form-group row">
+                                <div class="col-md-9 offset-md-3">
+                                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                                    <a href="@Url.Action("ChangePassword", "Account")" class="btn btn-outline-secondary ml-2">Đổi mật khẩu</a>
+                                </div>
+                            </div>
+                        }
+
+                        <div>
+                            <p class="btn btn-outline-primary">Bạn muốn đăng xuất? <a href="@Url.Action("Logout","Account")">Đăng xuất</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+

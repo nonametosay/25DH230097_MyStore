@@ -11,7 +11,14 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <img src="@Html.DisplayFor(model => model.ProductImage)" />
+            @if (!string.IsNullOrEmpty(Model.ProductImage))
+            {
+                <img src="@Url.Content(Model.ProductImage)" />
+            }
+            else
+            {
+                <p>Không có ảnh</p>
+            }
         </div>
         <div class="col-md-8">
             <dl>

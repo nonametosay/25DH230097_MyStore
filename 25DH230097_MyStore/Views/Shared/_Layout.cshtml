@@ -3,33 +3,177 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - QUẢN TRỊ WEBSITE</title>
+    <title>@ViewBag.Title</title>
+
+    <!-- Nhúng Font Awesome cho icon giỏ hàng -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        /* 1. HEADER: Dùng Flexbox để chia trái phải */
+        .header {
+            background-color: #ffffff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky; /* Ghim header lên đầu khi cuộn */
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+            .logo img {
+                height: 50px;
+                border-radius: 5px;
+            }
+
+            .logo h1 {
+                font-size: 24px;
+                margin: 0;
+                color: #333;
+            }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .fa-shopping-cart {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+            nav ul li {
+                margin-left: 20px;
+            }
+
+                nav ul li a {
+                    text-decoration: none;
+                    color: #333;
+                    font-weight: bold;
+                }
+
+                    nav ul li a:hover {
+                        color: #b12704;
+                    }
+
+        /* 2. KHU VỰC MENU & BANNER: Dùng Flexbox để chia 2 cột */
+        .main-top-section {
+            display: flex;
+            width: 100%;
+        }
+
+        .menu {
+            width: 250px; /* Cố định chiều rộng menu */
+            background-color: #ffffff;
+            padding: 20px;
+            border-right: 1px solid #eee;
+        }
+
+        .banner {
+            flex: 1; /* Banner chiếm phần còn lại */
+        }
+
+        /* 3. NỘI DUNG CHÍNH & FOOTER */
+        .content {
+            padding: 20px 30px;
+            background-color: #ffffff;
+            min-height: 500px; /* Đảm bảo trang không bị lùn */
+        }
+
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
-            </div>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-YSlyovzjG90uAZ8e0RMes5XsCXOXuG7sfQlk9WOnoCiUxYuesn76DTM&s=10" alt="Logo" />
+            <h1>Trang web E-commerce</h1>
         </div>
-    </nav>
-    <div class="container body-content">
+
+        <div class="header-right">
+            <div class="cart">
+                <a href="#">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="@Url.Action("Index","Home",null)">Trang chủ</a></li>
+                    <li><a href="#">Sản phẩm</a></li>
+                    <li><a href="#">Giỏ hàng</a></li>
+                    <li><a href="@Url.Action("Login","Account",null)">Đăng nhập</a></li>
+                    <li><a href="@Url.Action("UserProfile","Account",null)">Trang cá nhân</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- VÙNG MENU & BANNER (Nằm ngang nhau) -->
+    <div class="main-top-section">
+        <div class="menu">
+            @RenderSection("Menu", required: false)
+        </div>
+        <div class="banner">
+            @RenderSection("Banner", required: false)
+        </div>
+    </div>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <div class="content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>&copy; 2024 Trang web E-commerce. All rights reserved.</p>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
