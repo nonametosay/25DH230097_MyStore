@@ -40,7 +40,7 @@ namespace _25DH230097_MyStore.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product pro=db.Products.Find(id);
+            Product pro=db.Products.Find(id);//Sản phẩm đang xem chi tiết
             if (pro == null)
             {
                 return HttpNotFound();

@@ -130,6 +130,7 @@
     </style>
 </head>
 <body>
+
     <!-- HEADER -->
     <div class="header">
         <div class="logo">
@@ -139,7 +140,7 @@
 
         <div class="header-right">
             <div class="cart">
-                <a href="#">
+                <a href="@Url.Action("Checkout","Order")">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">3</span>
                 </a>
@@ -148,7 +149,7 @@
                 <ul>
                     <li><a href="@Url.Action("Index","Home",null)">Trang chủ</a></li>
                     <li><a href="#">Sản phẩm</a></li>
-                    <li><a href="#">Giỏ hàng</a></li>
+                    <li><a href="@Url.Action("Index","Cart",null)">Giỏ hàng</a></li>
                     <li><a href="@Url.Action("Login","Account",null)">Đăng nhập</a></li>
                     <li><a href="@Url.Action("UserProfile","Account",null)">Trang cá nhân</a></li>
                 </ul>
@@ -167,6 +168,12 @@
     </div>
 
     <!-- NỘI DUNG CHÍNH -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-warning text-center">
+            @TempData["ErrorMessage"]
+        </div>
+    }
     <div class="content">
         @RenderBody()
     </div>
