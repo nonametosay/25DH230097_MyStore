@@ -115,7 +115,12 @@ namespace _25DH230097_MyStore.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Customer customer = db.Customers.Find(id);
+            User user = db.Users.Find(id);
+            //Xóa bảng con
             db.Customers.Remove(customer);
+
+            //Xóa bảng cha
+            db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

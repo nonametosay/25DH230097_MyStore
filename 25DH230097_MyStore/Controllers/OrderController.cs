@@ -155,7 +155,7 @@ namespace _25DH230097_MyStore.Controllers
             if (customer == null) { return RedirectToAction("Login", "Account"); }
 
             // Lấy đơn của khách này, kèm chi tiết đơn và sản phẩm để hiện tên, ảnh
-            var orders = db.Orders.Include("OrderDetail.Product")
+            var orders = db.Orders.Include("OrderDetails.Product")
                                   .Where(o => o.CustomerID == customer.CustomerID);
 
             // Lọc theo tab trạng thái (để trống = Tất cả)

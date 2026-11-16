@@ -1,0 +1,56 @@
+﻿@model _25DH230097_MyStore.Models.Order
+@{
+    ViewBag.Title = "Hóa Đơn";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Hóa Đơn Mua Hàng #@Model.OrderID</h2>
+        <hr />
+
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col-md-6">
+                <strong>Khách hàng:</strong> @Model.Customer.CustomerName <br />
+                <strong>Số điện thoại:</strong> @Model.Customer.CustomerPhone <br />
+                <strong>Địa chỉ:</strong> @Model.ShippingAddress
+            </div>
+            <div class="col-md-6 text-right">
+                <strong>Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm") <br />
+                <strong>Thanh toán:</strong> @Model.PaymentMethod <br />
+                <strong>Vận chuyển:</strong> @Model.DeliveryMethod
+            </div>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr style="background-color: #f8f9fa;">
+                    <th>Sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.OrderDetails as IEnumerable<_25DH230097_MyStore.Models.OrderDetail>)
+                {
+                    <tr>
+                        <td>@(item.Product != null ? item.Product.ProductName : "Sản phẩm đã bị xóa")</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.UnitPrice.ToString("N0") ₫</td>
+                        <td>@item.TotalPrice) ₫</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="text-right" style="margin-top: 20px; font-size: 18px;">
+            <strong>Tổng cộng: <span style="color: red;">@Model.TotalAmount.ToString("N0") ₫</span></strong>
+        </div>
+
+        <hr />
+        <div>
+            @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>

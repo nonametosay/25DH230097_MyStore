@@ -13,6 +13,13 @@ namespace _25DH230097_MyStore.Controllers
     public class HomeController : Controller
     {
         private MyStoreEntities db = new MyStoreEntities();
+        [ChildActionOnly]
+        public ActionResult _CategoriesPV()
+        {
+            // Lưu ý: Đảm bảo biến "db" là tên DbContext thực tế của bạn
+            var categories = db.Categories.ToList();
+            return PartialView("_CategoriesPV", categories);
+        }
         public ActionResult Index(string searchTerm, int? page)
         {
             var model = new HomeProductVM();

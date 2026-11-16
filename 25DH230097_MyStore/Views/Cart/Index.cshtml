@@ -91,30 +91,25 @@ else
     
     <script>
         function cartUpdateQuantity(id, newQuantity) {
-    // 1. Nếu số lượng mới nhỏ hơn 1 thì dừng luôn (không cho âm)
-    if (newQuantity < 1) return;
+    if (newQuantity < 1) return;       // tối thiểu 1
+    if (newQuantity > 10) return;      // ✅ tối đa 10 (khớp ProductDetail)
 
-    // 2. Tạo một thẻ <form> ảo bằng JS
     const form = document.createElement('form');
-    form.method = 'post'; // Gửi bằng phương thức POST
-    // Lấy đường dẫn đến hàm UpdateQuantity trong CartController
+    form.method = 'post';
     form.action = '@Url.Action("UpdateQuantity", "Cart")';
 
-    // 3. Tạo một thẻ <input> ẩn để chứa ID sản phẩm
     const idInput = document.createElement('input');
     idInput.type = 'hidden';
-    idInput.name = 'id'; // Tên biến Controller sẽ nhận
-    idInput.value = id;  // Gán ID sản phẩm
-    form.appendChild(idInput); // Nhét input vào form
+    idInput.name = 'id';
+    idInput.value = id;
+    form.appendChild(idInput);
 
-    // 4. Tạo một thẻ <input> ẩn để chứa Số lượng mới
     const quantityInput = document.createElement('input');
     quantityInput.type = 'hidden';
-    quantityInput.name = 'quantity'; // Tên biến Controller sẽ nhận
-    quantityInput.value = newQuantity; // Gán số lượng mới
+    quantityInput.name = 'quantity';
+    quantityInput.value = newQuantity;
     form.appendChild(quantityInput);
 
-    // 5. Gắn form ảo vào trang web và submit nó
     document.body.appendChild(form);
     form.submit();
 }

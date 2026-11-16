@@ -1,0 +1,20 @@
+﻿@model IEnumerable<_25DH230097_MyStore.Models.Category>
+
+@if (Model != null && Model.Any())
+{
+    <div class="category-dropdown">
+        <a href="#" class="category-toggle">
+            <i class="fas fa-bars"></i> Danh mục
+            <i class="fas fa-caret-down" style="font-size:11px;"></i>
+        </a>
+        <ul class="category-list">
+            @foreach (var cat in Model)
+            {
+                <li>
+                    @Html.ActionLink(cat.CategoryName, "ProductList", "Home",
+                        new { categoryId = cat.CategoryID }, null)
+                </li>
+            }
+        </ul>
+    </div>
+}

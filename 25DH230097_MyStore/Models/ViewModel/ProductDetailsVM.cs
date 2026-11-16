@@ -8,7 +8,7 @@ namespace _25DH230097_MyStore.Models.ViewModel
     public class ProductDetailsVM
     {
         public Product product { get; set; }
-        public int quantity { get; set; }
+        public int quantity { get; set; } = 1;
         //Tính giá trị tạm thời quantity * product.ProductPrice
         public decimal estimatedValue => quantity * product.ProductPrice;
 

@@ -7,7 +7,7 @@
 
     <!-- Nhúng Font Awesome cho icon giỏ hàng -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-
+    <link rel="stylesheet" href="~/Content/PagedList.css">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -81,6 +81,7 @@
             display: flex;
             margin: 0;
             padding: 0;
+            align-items: center;
         }
 
             nav ul li {
@@ -96,6 +97,57 @@
                     nav ul li a:hover {
                         color: #b12704;
                     }
+
+        /* --- CSS THÊM CHO DROPDOWN DANH MỤC --- */
+        .category-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+            .category-dropdown > a {
+                cursor: pointer;
+                text-decoration: none;
+                color: #333;
+                font-weight: bold;
+            }
+
+            .category-dropdown .category-list {
+                display: none;
+                position: absolute;
+                left: 0;
+                top: 100%;
+                background: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                min-width: 200px;
+                z-index: 999;
+                padding: 5px 0;
+                list-style: none;
+                margin: 0;
+            }
+
+            .category-dropdown:hover .category-list {
+                display: block;
+            }
+
+            .category-dropdown .category-list li {
+                margin: 0;
+                width: 100%;
+            }
+
+            .category-dropdown .category-list a {
+                display: block;
+                padding: 8px 15px;
+                color: #333;
+                font-weight: normal;
+                font-size: 14px;
+            }
+
+                .category-dropdown .category-list a:hover {
+                    background-color: #f5f5f5;
+                    color: #b12704;
+                }
 
         /* 2. KHU VỰC MENU & BANNER: Dùng Flexbox để chia 2 cột */
         .main-top-section {
@@ -140,18 +192,36 @@
 
         <div class="header-right">
             <div class="cart">
-                <a href="@Url.Action("Checkout","Order")">
+                <a href="@Url.Action("Index","Cart")">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">3</span>
+                    @{
+                        var cart = Session["Cart"] as _25DH230097_MyStore.Models.ViewModel.GioHang.Cart;
+                        var cartCount = (cart != null && cart.Items != null) ? cart.Items.Sum(x => x.Quantity) : 0;
+                    }
+                    <span class="cart-count">@cartCount</span>
                 </a>
             </div>
             <nav>
                 <ul>
                     <li><a href="@Url.Action("Index","Home",null)">Trang chủ</a></li>
-                    <li><a href="#">Sản phẩm</a></li>
+
+                    <!-- THÊM MENU DANH MỤC VÀO ĐÂY -->
+                    <li class="category-dropdown">
+                        @Html.Action("_CategoriesPV", "Home")
+                    </li>
+
                     <li><a href="@Url.Action("Index","Cart",null)">Giỏ hàng</a></li>
-                    <li><a href="@Url.Action("Login","Account",null)">Đăng nhập</a></li>
-                    <li><a href="@Url.Action("UserProfile","Account",null)">Trang cá nhân</a></li>
+
+                    <!-- XÓA 2 LINK THỪA, GỘP THÀNH 1 LINK TÀI KHOẢN -->
+                    @if (Session["Username"] != null)
+                    {
+                        <li><a href="@Url.Action("ProfileInfo","Account")">@Session["Username"]</a></li>
+                        <li><a href="@Url.Action("Logout","Account")">Đăng xuất</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="@Url.Action("Login","Account",null)">Đăng nhập</a></li>
+                    }
                 </ul>
             </nav>
         </div>
